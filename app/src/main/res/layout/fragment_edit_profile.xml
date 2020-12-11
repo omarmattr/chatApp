@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <EditText
+        android:id="@+id/edit_p_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@drawable/bk_edit"
+        android:hint="new \@username"
+        android:inputType="text"
+        android:padding="@dimen/activity_vertical_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
+    <TextView
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:paddingStart="16dp"
+        android:textSize="18dp"
+        android:text="Click to change password"
+        android:textColor="@color/purple_700"
+        android:id="@+id/edit_p_change"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_p_name"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:visibility="gone"
+        android:id="@+id/edit_p_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@drawable/bk_edit"
+        android:hint="password"
+        android:inputType="textPassword"
+        android:padding="@dimen/activity_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@+id/edit_p_change"
+        tools:layout_editor_absoluteX="16dp" />
+    <EditText
+        android:visibility="gone"
+        android:id="@+id/edit_p_new_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@drawable/bk_edit"
+        android:hint="New password"
+        android:inputType="textPassword"
+        android:padding="@dimen/activity_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@+id/edit_p_password"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/edit_p_btn"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:text="Save"
+        android:textSize="18sp"
+        app:cornerRadius="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_p_new_password"
+        app:layout_constraintWidth_percent="0.4" />
+</androidx.constraintlayout.widget.ConstraintLayout>

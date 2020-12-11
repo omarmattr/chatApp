@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.chat_project.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_online"
+            app:destination="@id/navigation_online" />
+        <action
+            android:id="@+id/action_navigation_home_to_chat"
+            app:destination="@id/chat" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_online"
+        android:name="com.example.chat_project.ui.online.OnlineFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_online" >
+        <action
+            android:id="@+id/action_navigation_online_to_chat"
+            app:destination="@id/chat" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_other"
+        android:name="com.example.chat_project.ui.other.Other"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_other" />
+    <fragment
+        android:id="@+id/chat"
+        android:name="com.example.chat_project.ui.chat.Chat"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
+    <dialog
+        android:id="@+id/addGroup"
+        android:name="com.example.chat_project.add_group.AddGroup"
+        android:label="AddGroup" >
+        <action
+            android:id="@+id/action_addGroup_to_chat"
+            app:destination="@id/chat" />
+    </dialog>
+</navigation>
