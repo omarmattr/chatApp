@@ -40,6 +40,7 @@ class HomeFragment : Fragment(),HomeAdapter.OnClick {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         btn_float.setOnClickListener {
             showBottomSheet()
             //  MainActivity.navController.navigate(R.id.action_navigation_home_to_navigation_online)
@@ -53,6 +54,11 @@ class HomeFragment : Fragment(),HomeAdapter.OnClick {
             }
 
         })
+
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.clear()
 
     }
     private fun showBottomSheet(){
@@ -74,7 +80,7 @@ class HomeFragment : Fragment(),HomeAdapter.OnClick {
         requireActivity().nav_view.isVisible = false
         val a = Bundle()
         a.putInt("chat_id",h.id)
-        a.putParcelable("user", User(h.sId,h.name!!,h.name,h.img,true))
+        a.putParcelable("user", User(h.sId,h.name!!,h.name,"",true))
         Log.e("oooH",h.sId+MainActivity.mId)
         MainActivity.navController.navigate(R.id.action_navigation_home_to_chat, a)
     }

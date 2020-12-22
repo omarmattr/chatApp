@@ -62,10 +62,11 @@ class Chat : Fragment(), TextWatcher {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val a = arguments
-        chatId =  a?.getInt("chat_id")
-        if (a?.getParcelable<User>("user") != null)
-            user = a.getParcelable("user")!!
+        val argum = arguments
+        chatId =  argum?.getInt("chat_id")
+        if (argum?.getParcelable<User>("user") != null)
+            user = argum.getParcelable("user")!!
+        arguments?.clear()
         chat_name.text = user.name
         val layout=LinearLayoutManager(requireActivity())
         recycle_chat.apply {
@@ -177,8 +178,10 @@ class Chat : Fragment(), TextWatcher {
     fun send(sId: String, mId: String, message: String, type: String) {
         Log.e("omarmattr", "send")
         ed_messege.setText("")
-        if (myAdapter.array.isEmpty())
-            viewModel.insert(ChatHomeModel(sId, user.name, user.img, "", ""))
+        if (myAdapter.array.isEmpty())viewModel.getImage(sId).observe(viewLifecycleOwner,{
+            viewModel.insert(ChatHomeModel(sId, user.name,it, "", ""))
+        })
+
         val chatModel=ChatModel(sId, mId, message, type)
       if (sId.split(",")[0] != "group")  viewModel.insertChat(chatModel)
         Log.e("TAG", chatModel.toString())
@@ -207,16 +210,30 @@ class Chat : Fragment(), TextWatcher {
             LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
         }
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        if (myAdapter.array.isNotEmpty() && chatId!=null) {
-            Log.e("ooo", "chatId is Not Null Or Empty")
-            val message =
-                if (myAdapter.array.last().type.split(",")[1] == "text") myAdapter.array.last().message else "image"
-            val chatHomeModel=ChatHomeModel(user.id, user.name, user.img, message, getNowDate())
-            chatHomeModel.id=chatId!!
-            viewModel.upDate(chatHomeModel)
-        }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.clear()
+
     }
+
+    override fun onStart() {
+        if (myAdapter.array.isNotEmpty() && chatId!=null) {
+            viewModel.getImage(user.id).observe(viewLifecycleOwner,{img->
+                Log.e("ooo", "chatId is Not Null Or Empty")
+                val message =
+                    if (myAdapter.array.last().type.split(",")[1] == "text") myAdapter.array.last().message else "image"
+                val chatHomeModel=ChatHomeModel(user.id, user.name,img, message, getNowDate())
+                chatHomeModel.id=chatId!!
+                viewModel.upDate(chatHomeModel)
+            })
+        }
+        super.onStart()
+    }
+    override fun onDestroy() {
+
+
+        super.onDestroy()
+}
 
 }

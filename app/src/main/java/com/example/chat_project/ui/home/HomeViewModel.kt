@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.chat_project.db.AppDatabase
 import com.example.chat_project.model.ChatHomeModel
 import com.example.chat_project.model.ChatModel
+import com.example.chat_project.model.ImageModel
 import com.example.chat_project.model.User
 import com.example.chat_project.socket.ChatApplication
 import kotlinx.coroutines.launch
@@ -23,7 +24,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val db by lazy { AppDatabase.invoke(application.applicationContext) }
 
     fun getAllChatWithId(id: String) = db.gameDao().getAllChatWithId(id)
-    fun getAllChat() = db.gameDao().getAllChat()
     fun insertChat(chat: ChatModel) = viewModelScope.launch {
         Log.e(TAG, "insert")
         db.gameDao().insertChat(chat)
@@ -54,5 +54,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun delete(tag: String) = viewModelScope.launch { Thread { db.gameDao().delete(tag) }.start() }
     fun deleteAll() = viewModelScope.launch { Thread { db.gameDao().deleteAll() }.start() }
-
+///////////////////////////////////////////////////////////////////////
+    fun getImage(id: String) = db.gameDao().getImage(id)
+    fun getAllImageId() = db.gameDao().getAllImageId()
+    fun insertImage(imageModel: ImageModel) = viewModelScope.launch { db.gameDao().insertImage(imageModel) }
+    fun upDate(imageModel: ImageModel) = viewModelScope.launch { db.gameDao().upDateImage(imageModel) }
+    fun deleteImage(tag: String) = viewModelScope.launch { Thread { db.gameDao().deleteImage(tag) }.start() }
 }

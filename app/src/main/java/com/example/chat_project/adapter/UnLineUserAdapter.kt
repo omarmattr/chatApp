@@ -34,7 +34,10 @@ interface OnClick{
            r_h_img.setImageBitmap(ChatApplication.decodeImage(array[position].img))
            r_h_name.text=array[position].name
            r_h_name.setOnClickListener {
-               click.onClick(array[position])
+
+               val user =array[position]
+
+               click.onClick(user)
            }
        }
     }

@@ -60,13 +60,14 @@ val mSocket=ChatApplication.mSocket
                 mSocket.emit("user-join", uJson)
                 val a = Bundle()
                 a.putParcelable("user", user)
-                requireActivity().nav_view.isVisible = false
-                onDetach()
+                dismiss()
+               // requireActivity().nav_view.isVisible = false
                // MainActivity.navController.navigate(R.id.action_navigation_home_to_chat, a)
             }else{
-                Toast.makeText(requireActivity(), "The group name is empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "The group name or image is empty", Toast.LENGTH_SHORT).show()
 
             }
+
         }
 
     }

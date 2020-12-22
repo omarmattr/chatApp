@@ -27,14 +27,14 @@ import java.net.URISyntaxException;
                  .crop()                    //Crop image(Optional), Check Customization for more option
                  .compress(1024)            //Final image size will be less than 1 MB(Optional)
                  .maxResultSize(
-                     1080,
-                     1080
+                     720,
+                     720
                  )    //Final image resolution will be less than 1080 x 1080(Optional)
                  .start()
          }
          fun imageToBase64(bitmap: Bitmap): String {
              val byteArrayOutputStream = ByteArrayOutputStream()
-             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+             bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
              return Base64.encodeToString(
                  byteArrayOutputStream.toByteArray(),
                  Base64.DEFAULT

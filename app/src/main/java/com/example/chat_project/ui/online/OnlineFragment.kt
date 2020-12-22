@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chat_project.MainActivity
 import com.example.chat_project.R
 import com.example.chat_project.adapter.UnLineUserAdapter
+import com.example.chat_project.model.ImageModel
 import com.example.chat_project.model.User
 import com.example.chat_project.socket.ChatApplication
+import com.example.chat_project.ui.home.HomeViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,6 +30,10 @@ class OnlineFragment : Fragment(), UnLineUserAdapter.OnClick {
     var mSocket= ChatApplication.mSocket
     lateinit var myAdapter: UnLineUserAdapter
     private lateinit var dashboardViewModel: OnlineViewModel
+    private val viewModel by lazy {
+        ViewModelProvider(requireActivity())[HomeViewModel::class.java]
+    }
+
     val arrayUser = ArrayList<User>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,9 +90,16 @@ class OnlineFragment : Fragment(), UnLineUserAdapter.OnClick {
 
     override fun onClick(user: User) {
         requireActivity().nav_view.isVisible = false
-        val a = Bundle()
-        a.putParcelable("user", user)
-        MainActivity.navController.navigate(R.id.action_navigation_online_to_chat, a)
+        viewModel.getAllImageId().observe(viewLifecycleOwner,{
+            val isId=it.find{id-> id == user.id }
+            if (isId.isNullOrEmpty())viewModel.insertImage(ImageModel(user.id,user.img))
+
+            user.img=""
+            val a = Bundle()
+            a.putParcelable("user", user)
+            MainActivity.navController.navigate(R.id.action_navigation_online_to_chat, a)
+        })
+
     }
 
 }

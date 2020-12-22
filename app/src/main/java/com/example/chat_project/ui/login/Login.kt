@@ -40,52 +40,56 @@ class Login : Fragment(), TextWatcher {
         signin_username.addTextChangedListener(this)
 
         signin_password.addTextChangedListener(this)
+        val sharedPref = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+        var username=""
         signin_btn_in.setOnClickListener {
-            val sharedPref = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
-            mSocket!!.emit(
+            username=signin_username.text.toString()
+            mSocket.emit(
                 "user-login",
-                signin_username.text.toString(),
+                username ,
                 signin_password.text.toString()
             )
-            mSocket!!.on(signin_username.text.toString(), fun(value) {
-                GlobalScope.launch(Dispatchers.Main) {
-                    val jUsers = value[0] as JSONArray
-                    Log.e("login", jUsers.length().toString())
-                    if (jUsers.length() == 0) {
-                        Toast.makeText(
-                            requireContext(),
-                            "username or password dose not match",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        val userJO = jUsers.getJSONObject(0)
-                        val user = User(
-                            userJO.getString("id"),
-                            userJO.getString("name"),
-                            userJO.getString("email"),
-                            userJO.getString("img"),
-                            true
-                        )
-                        val json = Gson().toJson(user)
-                        mSocket!!.emit(
-                            "user-join", json
-                        )
-                        val editor = sharedPref.edit()
-                        editor.putBoolean("login", true)
-                        editor.putString("user_id", user.id)
-                        editor.putString("username", user.name)
-                        editor.putString("email", user.email)
-                        editor.putString("img", user.img)
-                        editor.apply()
-                        requireActivity().startActivity(Intent(requireActivity(), MainActivity::class.java))
-                        requireActivity().finish()
-
-                    }
-                }
-            })
-
 
         }
+        mSocket.on("login-result", fun(value) {
+            GlobalScope.launch(Dispatchers.Main) {
+                if ( value[0].toString()==username){
+                val jUsers = value[1] as JSONArray
+                Log.e("login", jUsers.length().toString())
+                if (jUsers.length() == 0) {
+                    Toast.makeText(
+                        requireContext(),
+                        "username or password dose not match",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+
+                    val userJO = jUsers.getJSONObject(0)
+                    val user = User(
+                        userJO.getString("id"),
+                        userJO.getString("name"),
+                        userJO.getString("email"),
+                        userJO.getString("img"),
+                        true
+                    )
+                    val json = Gson().toJson(user)
+                    mSocket!!.emit(
+                        "user-join", json
+                    )
+                    val editor = sharedPref.edit()
+                    editor.putBoolean("login", true)
+                    editor.putString("user_id", user.id)
+                    editor.putString("username", user.name)
+                    editor.putString("email", user.email)
+                    editor.putString("img", user.img)
+                    editor.apply()
+                    requireActivity().startActivity(Intent(requireActivity(), MainActivity::class.java))
+                     requireActivity().finish()
+
+                }
+            }
+            }
+        })
         signin_btn_up.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.main2_container, Signup()).addToBackStack(null).commit()

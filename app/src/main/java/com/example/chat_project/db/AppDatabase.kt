@@ -7,12 +7,13 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.chat_project.model.ChatHomeModel
 import com.example.chat_project.model.ChatModel
+import com.example.chat_project.model.ImageModel
 
 
 @TypeConverters(Converters::class)
 @Database(
     version = 1,
-    entities = [ChatHomeModel::class,ChatModel::class]
+    entities = [ChatHomeModel::class,ChatModel::class,ImageModel::class]
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -33,7 +34,7 @@ abstract class AppDatabase : RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
-                "Game.dp3"
+                "Game.dp1"
             ).build()
     }
 }
