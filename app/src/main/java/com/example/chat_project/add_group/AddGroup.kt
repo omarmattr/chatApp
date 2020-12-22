@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_add_group.*
 
 
+@Suppress("DEPRECATION")
 class AddGroup : BottomSheetDialogFragment() {
 val mSocket=ChatApplication.mSocket
  var imgBit:Bitmap?=null
