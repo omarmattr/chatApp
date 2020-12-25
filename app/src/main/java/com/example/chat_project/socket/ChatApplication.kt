@@ -59,7 +59,6 @@ import java.net.URISyntaxException;
          mSocket.connect()
      }
      var onConnect = Emitter.Listener {
-
          Log.e(TAG, "Socket Connected!")
      }
          private val onConnectError: Emitter.Listener = Emitter.Listener {

@@ -24,40 +24,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val db by lazy { AppDatabase.invoke(application.applicationContext) }
 
     fun getAllChatWithId(id: String) = db.gameDao().getAllChatWithId(id)
-    fun insertChat(chat: ChatModel) = viewModelScope.launch {
-        Log.e(TAG, "insert")
-        db.gameDao().insertChat(chat)
-    }
-
-    fun upDateChat(chat: ChatModel) = viewModelScope.launch {
-        // Log.e(TAG, "upDate"+chat.toString())
-        db.gameDao().upDateChat(chat)
-    }
-
-    fun deleteChat(id: String) =
-        viewModelScope.launch { Thread { db.gameDao().delete(id) }.start() }
-
-    fun deleteAllChat() = viewModelScope.launch { Thread { db.gameDao().deleteAllChat() }.start() }
-
+    fun insertChat(chat: ChatModel) = viewModelScope.launch { db.gameDao().insertChat(chat) }
+    fun upDateChat(chat: ChatModel) = viewModelScope.launch { db.gameDao().upDateChat(chat) }
+    fun deleteChat(id: String) = viewModelScope.launch { db.gameDao().delete(id) }
+    fun deleteAllChat() = viewModelScope.launch {  db.gameDao().deleteAllChat() }
     //////////////////////////////////////////////////////////////////
     fun getAllWithId(id: String) = db.gameDao().getAllWithId(id)
     fun getAll() = db.gameDao().getAll()
-    fun insert(chat: ChatHomeModel) = viewModelScope.launch {
-        Log.e(TAG, "insert")
-        db.gameDao().insert(chat)
-    }
-
-    fun upDate(chat: ChatHomeModel) = viewModelScope.launch {
-        //Log.e(TAG, "upDate"+chat.toString())
-        db.gameDao().upDate(chat)
-    }
-
-    fun delete(tag: String) = viewModelScope.launch { Thread { db.gameDao().delete(tag) }.start() }
-    fun deleteAll() = viewModelScope.launch { Thread { db.gameDao().deleteAll() }.start() }
+    fun insert(chat: ChatHomeModel) = viewModelScope.launch { db.gameDao().insert(chat) }
+    fun upDate(chat: ChatHomeModel) = viewModelScope.launch { db.gameDao().upDate(chat) }
+    fun delete(tag: String) = viewModelScope.launch {  db.gameDao().delete(tag) }
+    fun deleteAll() = viewModelScope.launch { db.gameDao().deleteAll() }
 ///////////////////////////////////////////////////////////////////////
     fun getImage(id: String) = db.gameDao().getImage(id)
     fun getAllImageId() = db.gameDao().getAllImageId()
     fun insertImage(imageModel: ImageModel) = viewModelScope.launch { db.gameDao().insertImage(imageModel) }
     fun upDate(imageModel: ImageModel) = viewModelScope.launch { db.gameDao().upDateImage(imageModel) }
-    fun deleteImage(tag: String) = viewModelScope.launch { Thread { db.gameDao().deleteImage(tag) }.start() }
+    fun deleteImage(tag: String) = viewModelScope.launch {  db.gameDao().deleteImage(tag) }
 }

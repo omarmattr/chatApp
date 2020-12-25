@@ -91,9 +91,8 @@ class OnlineFragment : Fragment(), UnLineUserAdapter.OnClick {
     override fun onClick(user: User) {
         requireActivity().nav_view.isVisible = false
         viewModel.getAllImageId().observe(viewLifecycleOwner,{
-            val isId=it.find{id-> id == user.id }
+            val isId=it.find{id-> id == user.id}
             if (isId.isNullOrEmpty())viewModel.insertImage(ImageModel(user.id,user.img))
-
             user.img=""
             val a = Bundle()
             a.putParcelable("user", user)

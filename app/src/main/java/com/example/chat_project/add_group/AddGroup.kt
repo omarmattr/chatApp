@@ -6,27 +6,23 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import com.example.chat_project.R
 import com.example.chat_project.model.User
 import com.example.chat_project.permission
 import com.example.chat_project.socket.ChatApplication
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_add_group.*
 
 
 @Suppress("DEPRECATION")
 class AddGroup : BottomSheetDialogFragment() {
-val mSocket=ChatApplication.mSocket
+val mSocket= ChatApplication.mSocket!!
  var imgBit:Bitmap?=null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,8 +55,8 @@ val mSocket=ChatApplication.mSocket
                 )
                 val uJson = Gson().toJson(user)
                 mSocket.emit("user-join", uJson)
-                val a = Bundle()
-                a.putParcelable("user", user)
+              //  val a = Bundle()
+              //  a.putParcelable("user", user)
                 dismiss()
                // requireActivity().nav_view.isVisible = false
                // MainActivity.navController.navigate(R.id.action_navigation_home_to_chat, a)
@@ -77,8 +73,6 @@ val mSocket=ChatApplication.mSocket
         if (requestCode == 1 &&
             resultCode == Activity.RESULT_OK
         ) {
-
-
             val imageUri = data!!.data
             imgBit= MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri)
             a_g_img.setImageURI(imageUri)

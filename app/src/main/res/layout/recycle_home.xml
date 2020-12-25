@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="5dp"
     android:layout_width="match_parent"
-
     android:layout_height="wrap_content">
 <de.hdodenhof.circleimageview.CircleImageView
     android:id="@+id/r_h_img"

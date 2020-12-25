@@ -72,7 +72,6 @@ class Chat : Fragment(), TextWatcher {
         recycle_chat.apply {
             layout.reverseLayout=true
             layout.stackFromEnd=true
-
             layoutManager = layout
             adapter = myAdapter
         }
@@ -89,7 +88,7 @@ class Chat : Fragment(), TextWatcher {
 //
         })
 
-        img_send.setOnClickListener {
+        btn_send.setOnClickListener {
             val message = ed_messege.text.toString().trim { it <= ' ' }
             if (message.isNotEmpty()) {
                 send(user.id,MainActivity.mId, message, "s,text")

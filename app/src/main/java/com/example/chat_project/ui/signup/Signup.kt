@@ -35,7 +35,6 @@ class Signup : Fragment(),TextWatcher {
             val email=signup_email.text.toString()
             val password=signup_co_password.text.toString()
             val img=null
-
             mSocket.emit("user-insert",name,email,password,img)
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.main2_container, Login()).addToBackStack(null).commit()

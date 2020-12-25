@@ -96,8 +96,7 @@ class Login : Fragment(), TextWatcher {
         }
     }
 
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-    }
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int)=Unit
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         var a = true
@@ -114,8 +113,7 @@ class Login : Fragment(), TextWatcher {
         signin_btn_in.isEnabled = a
     }
 
-    override fun afterTextChanged(s: Editable?) {
-    }
+    override fun afterTextChanged(s: Editable?) =Unit
 
 
 }

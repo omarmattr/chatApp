@@ -30,8 +30,6 @@ init {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.apply {
             val chatHomeModel =array[position]
-
-
             r_h_name.text=chatHomeModel.name
             r_h_img.setImageBitmap(ChatApplication.decodeImage(chatHomeModel.img))
             r_h_m_last.text= chatHomeModel.lastM

@@ -26,9 +26,7 @@ class MainActivity : AppCompatActivity() {
          navController = findNavController(R.id.nav_host_fragment)
         nav_view.setupWithNavController(navController)
 
-
     }
-
     override fun onResume() {
         super.onResume()
         val  sharedPref = getSharedPreferences("user", Context.MODE_PRIVATE)
