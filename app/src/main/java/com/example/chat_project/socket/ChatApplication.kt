@@ -46,7 +46,7 @@ import java.net.URISyntaxException;
              return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
          }
          val TAG="omar"
-         val mSocket=  IO.socket("http://10.7.12.138:2000")
+         val mSocket=  IO.socket("http://10.7.14.244:2000")
      }
 
      override fun onCreate() {
@@ -60,6 +60,7 @@ import java.net.URISyntaxException;
      }
      var onConnect = Emitter.Listener {
          Log.e(TAG, "Socket Connected!")
+
      }
          private val onConnectError: Emitter.Listener = Emitter.Listener {
      }

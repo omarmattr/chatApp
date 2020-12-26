@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.chat_project.R
 import com.example.chat_project.Registration
@@ -54,9 +55,9 @@ class Other : Fragment() {
         lateinit var user: User
         val sharedPref = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
         val name = sharedPref.getString("username", "")
-        viewModel.userLiveData.observe(viewLifecycleOwner,{
+        viewModel.userLiveData.observe(viewLifecycleOwner, Observer{
             o_txt_name.text = it.name
-            viewModel.getImage(it.id).observe(viewLifecycleOwner,{image->
+            viewModel.getImage(it.id).observe(viewLifecycleOwner, Observer{ image->
                 if (!image.isNullOrEmpty())
                     GlobalScope.launch(Dispatchers.Main) {o_img.setImageBitmap(decodeImage(image))}
                 else  sharedPref.edit().putBoolean("isImage",false).apply()

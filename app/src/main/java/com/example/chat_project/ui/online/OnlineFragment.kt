@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chat_project.MainActivity
@@ -90,7 +91,7 @@ class OnlineFragment : Fragment(), UnLineUserAdapter.OnClick {
 
     override fun onClick(user: User) {
         requireActivity().nav_view.isVisible = false
-        viewModel.getAllImageId().observe(viewLifecycleOwner,{
+        viewModel.getAllImageId().observe(viewLifecycleOwner, Observer{
             val isId=it.find{id-> id == user.id}
             if (isId.isNullOrEmpty())viewModel.insertImage(ImageModel(user.id,user.img))
             user.img=""

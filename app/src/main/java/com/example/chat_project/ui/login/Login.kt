@@ -25,7 +25,7 @@ import org.json.JSONArray
 
 
 class Login : Fragment(), TextWatcher {
-
+   private var enter=true
     var mSocket = ChatApplication.mSocket
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,28 +64,36 @@ class Login : Fragment(), TextWatcher {
                     ).show()
                 } else {
 
-                    val userJO = jUsers.getJSONObject(0)
-                    val user = User(
-                        userJO.getString("id"),
-                        userJO.getString("name"),
-                        userJO.getString("email"),
-                        userJO.getString("img"),
-                        true
-                    )
-                    val json = Gson().toJson(user)
-                    mSocket!!.emit(
-                        "user-join", json
-                    )
-                    val editor = sharedPref.edit()
-                    editor.putBoolean("login", true)
-                    editor.putString("user_id", user.id)
-                    editor.putString("username", user.name)
-                    editor.putString("email", user.email)
-                    editor.putString("img", user.img)
-                    editor.apply()
-                    requireActivity().startActivity(Intent(requireActivity(), MainActivity::class.java))
-                     requireActivity().finish()
+                    if (enter) {
 
+                        val userJO = jUsers.getJSONObject(0)
+                        val user = User(
+                            userJO.getString("id"),
+                            userJO.getString("name"),
+                            userJO.getString("email"),
+                            userJO.getString("img"),
+                            true
+                        )
+                        val json = Gson().toJson(user)
+                        mSocket!!.emit(
+                            "user-join", json
+                        )
+                        val editor = sharedPref.edit()
+                        editor.putBoolean("login", true)
+                        editor.putString("user_id", user.id)
+                        editor.putString("username", user.name)
+                        editor.putString("email", user.email)
+                        editor.putString("img", user.img)
+                        editor.apply()
+                        requireActivity().startActivity(
+                            Intent(
+                                requireActivity(),
+                                MainActivity::class.java
+                            )
+                        )
+                        requireActivity().finish()
+                    }
+                    enter=false
                 }
             }
             }

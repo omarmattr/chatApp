@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.chat_project.add_group.AddGroup
@@ -46,7 +47,7 @@ class HomeFragment : Fragment(),HomeAdapter.OnClick {
             //  MainActivity.navController.navigate(R.id.action_navigation_home_to_navigation_online)
 
         }
-        viewModel.getAll().observe(viewLifecycleOwner, {array ->
+        viewModel.getAll().observe(viewLifecycleOwner, Observer{array ->
 
             h_recycle.apply {
                 layoutManager = LinearLayoutManager(requireActivity())

@@ -27,14 +27,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun insertChat(chat: ChatModel) = viewModelScope.launch { db.gameDao().insertChat(chat) }
     fun upDateChat(chat: ChatModel) = viewModelScope.launch { db.gameDao().upDateChat(chat) }
     fun deleteChat(id: String) = viewModelScope.launch { db.gameDao().delete(id) }
-    fun deleteAllChat() = viewModelScope.launch {  db.gameDao().deleteAllChat() }
+    fun deleteAllChat() = viewModelScope.launch {  Thread{db.gameDao().deleteAllChat()}.start() }
     //////////////////////////////////////////////////////////////////
     fun getAllWithId(id: String) = db.gameDao().getAllWithId(id)
     fun getAll() = db.gameDao().getAll()
     fun insert(chat: ChatHomeModel) = viewModelScope.launch { db.gameDao().insert(chat) }
     fun upDate(chat: ChatHomeModel) = viewModelScope.launch { db.gameDao().upDate(chat) }
-    fun delete(tag: String) = viewModelScope.launch {  db.gameDao().delete(tag) }
-    fun deleteAll() = viewModelScope.launch { db.gameDao().deleteAll() }
+    fun delete(tag: String) = viewModelScope.launch {  Thread{db.gameDao().delete(tag)}.start() }
+    fun deleteAll() = viewModelScope.launch { Thread{db.gameDao().deleteAll()}.start() }
 ///////////////////////////////////////////////////////////////////////
     fun getImage(id: String) = db.gameDao().getImage(id)
     fun getAllImageId() = db.gameDao().getAllImageId()

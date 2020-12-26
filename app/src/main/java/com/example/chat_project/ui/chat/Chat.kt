@@ -32,17 +32,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
 
+@Suppress("DEPRECATION")
 class Chat : Fragment(), TextWatcher {
-    var chatId:Int?=null
-    val TAG = ChatApplication.TAG + "_Chat"
-    var mSocket = ChatApplication.mSocket
+    private var chatId:Int?=null
+  //  val TAG = ChatApplication.TAG + "_Chat"
+    private val mSocket = ChatApplication.mSocket
     lateinit var user: User
     private val myAdapter by lazy {
         ChatAdapter(requireActivity())
@@ -75,7 +75,7 @@ class Chat : Fragment(), TextWatcher {
             layoutManager = layout
             adapter = myAdapter
         }
-        viewModel.getAllChatWithId(user.id).observe(viewLifecycleOwner, { chat_model ->
+        viewModel.getAllChatWithId(user.id).observe(viewLifecycleOwner, androidx.lifecycle.Observer{ chat_model ->
             if (!chat_model.isNullOrEmpty()) {
               //  Log.e(TAG, chat_model.toString())
                 myAdapter.array.clear()
@@ -110,12 +110,8 @@ class Chat : Fragment(), TextWatcher {
         super.onActivityResult(requestCode, resultCode, data)
         when (resultCode) {
             Activity.RESULT_OK -> {
-                //Image Uri will not be null for RESULT_OK
                 val fileUri = data?.data
-                // o_img.setImageURI(fileUri)
 
-                //You can get File object from intent
-                val file: File = ImagePicker.getFile(data)!!
                 val imgBit =
                     MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, fileUri)
                 GlobalScope.launch(Dispatchers.Main) {
@@ -138,8 +134,14 @@ class Chat : Fragment(), TextWatcher {
     }
 
     private fun receive(id: String) {
+
         mSocket!!.on(id, fun(data) {
+
             GlobalScope.launch(Dispatchers.Main) {
+                Log.e("omarmattr", "receive")
+                if (myAdapter.array.isEmpty())viewModel.getImage(user.id).observe(viewLifecycleOwner, androidx.lifecycle.Observer{
+                    viewModel.insert(ChatHomeModel(user.id, user.name,it, "", ""))
+                })
                 val message = data[0] as JSONObject
                 val chat = ChatModel(
                     message.getString("sId"),
@@ -174,13 +176,12 @@ class Chat : Fragment(), TextWatcher {
         })
     }
 
-    fun send(sId: String, mId: String, message: String, type: String) {
+    private fun send(sId: String, mId: String, message: String, type: String) {
         Log.e("omarmattr", "send")
         ed_messege.setText("")
-        if (myAdapter.array.isEmpty())viewModel.getImage(sId).observe(viewLifecycleOwner,{
+        if (myAdapter.array.isEmpty())viewModel.getImage(sId).observe(viewLifecycleOwner, androidx.lifecycle.Observer{
             viewModel.insert(ChatHomeModel(sId, user.name,it, "", ""))
         })
-
         val chatModel=ChatModel(sId, mId, message, type)
       if (sId.split(",")[0] != "group")  viewModel.insertChat(chatModel)
         Log.e("TAG", chatModel.toString())
@@ -218,7 +219,8 @@ class Chat : Fragment(), TextWatcher {
 
     override fun onStart() {
         if (myAdapter.array.isNotEmpty() && chatId!=null) {
-            viewModel.getImage(user.id).observe(viewLifecycleOwner,{img->
+            viewModel.getImage(user.id).observe(viewLifecycleOwner,
+                androidx.lifecycle.Observer{ img->
                 Log.e("ooo", "chatId is Not Null Or Empty")
                 val message =
                     if (myAdapter.array.last().type.split(",")[1] == "text") myAdapter.array.last().message else "image"
@@ -229,10 +231,11 @@ class Chat : Fragment(), TextWatcher {
         }
         super.onStart()
     }
-    override fun onDestroy() {
 
+    override fun onStop() {
+        super.onStop()
+        onDestroy()
+    }
 
-        super.onDestroy()
-}
 
 }
